@@ -1,9 +1,11 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 set(_ECLIPSE_VERSION 4.5)
 project(libdict)
 
 enable_language(C)
 add_definitions(-std=c11)
+
+option(WITH_LIBDICT_TESTS "Build libdict unit tests (requires CUnit)." OFF)
 
 set(LIBDICT_SOURCES
     src/dict.c
@@ -30,15 +32,18 @@ endif(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
 set_target_properties(dict PROPERTIES PREFIX "lib")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}")
-find_package(CUnit REQUIRED)
-enable_testing()
-add_executable(dict_test unit_tests.c)
-target_include_directories(dict_test PRIVATE ${CUNIT_INCLUDE_DIRS})
-target_link_libraries (dict_test dict)
-target_link_libraries(dict_test ${CUNIT_LIBRARIES})
 
-add_test(
-    NAME dict_test
-    COMMAND dict_test
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+if(WITH_LIBDICT_TESTS)
+    find_package(CUnit REQUIRED)
+    enable_testing()
+    add_executable(dict_test unit_tests.c)
+    target_include_directories(dict_test PRIVATE ${CUNIT_INCLUDE_DIRS})
+    target_link_libraries(dict_test dict)
+    target_link_libraries(dict_test ${CUNIT_LIBRARIES})
+
+    add_test(
+        NAME dict_test
+        COMMAND dict_test
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+endif()
 
