@@ -45,5 +45,9 @@ if(WITH_LIBDICT_TESTS)
         NAME dict_test
         COMMAND dict_test
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+    add_executable(dict_lookup_test lookup_tests.c)
+    target_link_libraries(dict_lookup_test dict)
+    add_test(NAME dict_lookup_test COMMAND dict_lookup_test)
 endif()
 

@@ -171,6 +171,24 @@ rb_tree_clear(rb_tree* tree, dict_delete_func delete_func)
 }
 
 void** rb_tree_search(rb_tree* tree, const void* key) { return tree_search(tree, key); }
+
+void**
+rb_tree_search_cmp(rb_tree* tree, const void* query, dict_compare_func cmp_func)
+{
+    ASSERT(tree != NULL);
+    ASSERT(cmp_func != NULL);
+    for (rb_node* node = tree->root; node;) {
+        const int cmp = cmp_func(query, node->key);
+        if (cmp < 0)
+            node = node->llink;
+        else if (cmp > 0)
+            node = node->rlink;
+        else
+            return &node->datum;
+    }
+    return NULL;
+}
+
 void** rb_tree_search_le(rb_tree* tree, const void* key) { return tree_search_le(tree, key); }
 void** rb_tree_search_lt(rb_tree* tree, const void* key) { return tree_search_lt(tree, key); }
 void** rb_tree_search_ge(rb_tree* tree, const void* key) { return tree_search_ge(tree, key); }

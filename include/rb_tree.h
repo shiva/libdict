@@ -41,6 +41,13 @@ size_t		rb_tree_free(rb_tree* tree, dict_delete_func delete_func);
 dict_insert_result
 		rb_tree_insert(rb_tree* tree, void* key);
 void**		rb_tree_search(rb_tree* tree, const void* key);
+/* Compare query (first argument) with a stored key (second argument).
+ * cmp_func must agree with the tree's ordering. It is used only for this
+ * lookup; neither query nor cmp_func is retained and no memory is allocated.
+ * Returns the datum slot on equality, or NULL if absent, like rb_tree_search.
+ * tree and cmp_func must be non-NULL. */
+void**		rb_tree_search_cmp(rb_tree* tree, const void* query,
+                                   dict_compare_func cmp_func);
 void**		rb_tree_search_le(rb_tree* tree, const void* key);
 void**		rb_tree_search_lt(rb_tree* tree, const void* key);
 void**		rb_tree_search_ge(rb_tree* tree, const void* key);
