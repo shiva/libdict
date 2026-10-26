@@ -231,6 +231,19 @@ rb_tree_insert(rb_tree* tree, void* key)
     return (dict_insert_result) { &node->datum, true };
 }
 
+dict_replace_result
+rb_tree_replace(rb_tree* tree, void* key, void* datum)
+{
+    ASSERT(tree != NULL);
+    rb_node* node = tree_search_node(tree, key);
+    if (!node)
+        return (dict_replace_result) { NULL, NULL, false };
+    dict_replace_result result = { node->key, node->datum, true };
+    node->key = key;
+    node->datum = datum;
+    return result;
+}
+
 static unsigned
 insert_fixup(rb_tree* tree, rb_node* node)
 {

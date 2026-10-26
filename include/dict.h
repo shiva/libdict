@@ -81,6 +81,12 @@ typedef struct {
     bool    removed;
 } dict_remove_result;
 
+typedef struct {
+    void*   key;
+    void*   datum;
+    bool    replaced;
+} dict_replace_result;
+
 typedef dict_itor*  (*dict_inew_func)(void* obj);
 typedef size_t      (*dict_dfree_func)(void* obj, dict_delete_func delete_func);
 typedef dict_insert_result

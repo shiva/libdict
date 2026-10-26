@@ -49,5 +49,9 @@ if(WITH_LIBDICT_TESTS)
     add_executable(dict_lookup_test lookup_tests.c)
     target_link_libraries(dict_lookup_test dict)
     add_test(NAME dict_lookup_test COMMAND dict_lookup_test)
+
+    add_executable(dict_replace_test replace_tests.c)
+    target_link_libraries(dict_replace_test dict)
+    add_test(NAME dict_replace_test COMMAND dict_replace_test)
 endif()
 
